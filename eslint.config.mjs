@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // We fetch on-chain data on mount (no data-fetching library), which
+      // legitimately calls setState from an effect to drive loading/error
+      // state. This rule is over-eager for that pattern.
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

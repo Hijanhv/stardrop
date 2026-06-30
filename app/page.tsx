@@ -1,65 +1,68 @@
-import Image from "next/image";
+import Link from "next/link";
+import { BalanceCard } from "@/components/BalanceCard";
+import { SentGifts } from "@/components/SentGifts";
 
-export default function Home() {
+export default function DashboardPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+    <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
+      {/* Hero */}
+      <section className="text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3.5 py-1.5 text-xs font-medium text-ink-soft">
+          <span className="h-1.5 w-1.5 rounded-full bg-amber" /> Stellar Testnet · Claimable Balances
+        </span>
+        <h1 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
+          Gift-wrap XLM into a <span className="brand-text">link</span>.
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-ink-soft">
+          Lock a little XLM, share a link, and they claim it when they&apos;re ready. Trustless, no
+          IOUs, and nobody ever holds anyone&apos;s keys.
+        </p>
+        <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link href="/create" className="btn btn-primary text-base">
+            Create a Stardrop
+          </Link>
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://developers.stellar.org/docs/build/guides/transactions/claimable-balances"
             target="_blank"
             rel="noopener noreferrer"
+            className="btn btn-ghost text-base"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            How it works
           </a>
         </div>
-      </main>
+      </section>
+
+      {/* Balance + steps */}
+      <div className="mt-12 grid gap-5 lg:grid-cols-5">
+        <div className="lg:col-span-3">
+          <BalanceCard />
+        </div>
+        <div className="card p-7 sm:p-8 lg:col-span-2">
+          <h2 className="font-display text-lg font-semibold text-ink">Three steps</h2>
+          <ol className="mt-4 space-y-4">
+            {[
+              { t: "Connect", d: "Link your Freighter wallet on testnet." },
+              { t: "Gift", d: "Lock XLM into a claimable balance and get a link." },
+              { t: "They claim", d: "The recipient signs and the XLM lands in their wallet." },
+            ].map((s, i) => (
+              <li key={s.t} className="flex gap-3">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full brand-gradient text-sm font-semibold text-[#2a1300]">
+                  {i + 1}
+                </span>
+                <span>
+                  <span className="font-medium text-ink">{s.t}</span>
+                  <span className="block text-sm text-muted">{s.d}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {/* Sent gifts */}
+      <div className="mt-12">
+        <SentGifts />
+      </div>
     </div>
   );
 }
