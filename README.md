@@ -7,7 +7,7 @@
 A polished web dApp for gifting XLM as a shareable link on **Stellar Testnet** —
 trustless, no "I'll pay you back," and nobody ever holds anyone's keys.
 
-**[▶ Live demo](https://stardrop-tau.vercel.app)** · [60-second demo video](#) · Built with Next.js + Stellar SDK
+Built with Next.js + Stellar SDK
 
 </div>
 
@@ -33,6 +33,26 @@ locks funds for a specific claimant to retrieve later:
 
 The balance ID is predicted client-side with `tx.getClaimableBalanceId(0)` so the share
 link is ready the instant the create transaction is signed.
+
+### Why there's no smart contract (Classic vs Soroban)
+
+A fair question: Stellar has smart contracts (Soroban, written in Rust), so where's the
+contract here? There isn't one — **and that's by design.** Stellar gives you two distinct
+ways to put logic on-chain:
+
+|             | **Classic / native operations** (what Stardrop uses)   | **Soroban** (Stellar's smart-contract platform) |
+| ----------- | ------------------------------------------------------ | ----------------------------------------------- |
+| What it is  | Built-in transaction types baked into the protocol     | A programmable contract layer                   |
+| Language    | None — you just submit operations                      | Rust → compiled to WASM, deployed on-chain      |
+| Deploy step | Nothing to deploy                                      | You deploy a contract                           |
+
+Stardrop's trustless-escrow behavior — funds locked, only the intended recipient can
+claim, plus the optional 7-day reclaim — comes entirely from **native Claimable Balances
+and their claimant predicates** (`predicateUnconditional`, and
+`predicateNot(predicateBeforeRelativeTime("604800"))` for reclaim). The protocol enforces
+all of it, so no Rust, no WASM, and no contract deploy are needed. Reaching for Soroban
+here would add deploy complexity for behavior the base protocol already provides — which
+is exactly why claimable balances keep this a clean "White Belt" build.
 
 ---
 
@@ -70,8 +90,6 @@ link is ready the instant the create transaction is signed.
 | 3 · Successful testnet transaction | 4 · Transaction result shown |
 | --- | --- |
 | ![Successful transaction](docs/screenshots/03-successful-transaction.png) | ![Transaction result](docs/screenshots/04-transaction-result.png) |
-
-**🎥 60-second demo video:** _paste link here_
 
 ---
 
@@ -129,13 +147,17 @@ the claim-link origin is read from `window.location` at runtime.
 
 ## Deploy to Vercel
 
+**Live app:** https://stardrop-tau.vercel.app
+
 ```bash
 # Push to a GitHub repo, then import it at vercel.com — zero config needed.
 # Or with the Vercel CLI:
 npx vercel
 ```
 
-The frontend simply points at Testnet Horizon, so there's nothing to provision.
+The frontend simply points at Testnet Horizon, so there's nothing to provision. This
+repo is connected to Vercel's Git integration, so every push to `main` auto-deploys to
+production.
 
 ---
 
