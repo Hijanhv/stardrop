@@ -7,7 +7,7 @@
 A polished web dApp for gifting XLM as a shareable link on **Stellar Testnet** —
 trustless, no "I'll pay you back," and nobody ever holds anyone's keys.
 
-[Live demo](#) · [60-second demo video](#) · Built with Next.js + Stellar SDK
+**[▶ Live demo](https://stardrop-tau.vercel.app)** · [60-second demo video](#) · Built with Next.js + Stellar SDK
 
 </div>
 
